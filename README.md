@@ -9,9 +9,9 @@ To set this up:
 
 1) SSH tunnel. SSH to LPC machines and add port tunneling:
 
-    ~~~~
+    ```Bash
     ssh -L 8888:localhost:8888 user@cmslpc-sl6.fnal.gov
-    ~~~~
+    ```
 
     8888 is the default port for jupyter notebooks.
 
@@ -21,10 +21,10 @@ To set this up:
   
   - Python3: Python3 has a lot of nifty features that are worth using, but it doesn't come with CMSSW except for the very latest releases (10.1.X I believe). To enable it in the LPC (note this is outside CMSSW):
   
-    ~~~~
+    ```Bash
     source source /cvmfs/sft.cern.ch/lcg/views/LCG_92python3/x86_64-slc6-gcc62-opt/setup.sh`
     export PYTHONPATH=/cvmfs/sft.cern.ch/lcg/views/LCG_92python3/x86_64-slc6-gcc62-opt/lib/python3.6/site-packages:$PYTHONPATH`
-    ~~~~
+    ```
   
      Release LCG_92 already comes with jupyter too, so after sourcing it you can just type `jupyter notebook --no-browser` to run the server.
      
