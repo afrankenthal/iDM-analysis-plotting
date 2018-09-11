@@ -22,8 +22,8 @@ To set this up:
   - Python3: Python3 has a lot of nifty features that are worth using, but it doesn't come with CMSSW except for the very latest releases (10.1.X I believe). To enable it in the LPC (note this is outside CMSSW):
   
     ```Bash
-    source source /cvmfs/sft.cern.ch/lcg/views/LCG_92python3/x86_64-slc6-gcc62-opt/setup.sh`
-    export PYTHONPATH=/cvmfs/sft.cern.ch/lcg/views/LCG_92python3/x86_64-slc6-gcc62-opt/lib/python3.6/site-packages:$PYTHONPATH`
+    source source /cvmfs/sft.cern.ch/lcg/views/LCG_92python3/x86_64-slc6-gcc62-opt/setup.sh
+    export PYTHONPATH=/cvmfs/sft.cern.ch/lcg/views/LCG_92python3/x86_64-slc6-gcc62-opt/lib/python3.6/site-packages:$PYTHONPATH
     ```
   
      Release LCG_92 already comes with jupyter too, so after sourcing it you can just type `jupyter notebook --no-browser` to run the server.
