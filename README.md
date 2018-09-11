@@ -1,0 +1,29 @@
+# FirefighterAnalysis
+Fork from GitLab of SIDM/iDM trigger/reco efficiency plotting code
+
+### Run jupyter on the LPC
+
+It is possible to run available versions of jupyter on the LPC. This is in lieu of having to install jupyter on your local machine. The idea is to run the jupyter notebook server on the LPC and connect to it via your local computer browser. For that to work you need to SSH-tunnel the notebook server's port.
+
+To set this up:
+
+1) SSH tunnel. SSH to LPC machines and add port tunneling:
+
+    `ssh -L 8888:localhost:8888 user@cmslpc-sl6.fnal.gov`
+
+     8888 is the default port for jupyter notebooks.
+
+2) Jupyter notebook server. Once inside an LPC machine, there are two options for enabling jupyter notebooks:
+
+  - Python 2: this is the easiest way and comes bundled with CMSSW, but it only offers Python 2 support. After running `cmsenv` inside a    CMSSW release, type: `jupyter notebook --no-browser`
+  
+  - Python 3: Python 3 has a lot of nifty features that are worth using, but it doesn't come with CMSSW except for the very latest releases (10.1.X I believe). To enable it in the LPC (note this is outside CMSSW):
+  
+    `source source /cvmfs/sft.cern.ch/lcg/views/LCG_92python3/x86_64-slc6-gcc62-opt/setup.sh`
+    
+    `export PYTHONPATH=/cvmfs/sft.cern.ch/lcg/views/LCG_92python3/x86_64-slc6-gcc62-opt/lib/python3.6/site-packages:$PYTHONPATH`
+  
+     Release LCG_92 already comes with jupyter too, so after sourcing it you can just type `jupyter notebook --no-browser` to run the server.
+  
+  
+3) Access the notebook server on your browser. After the notebook server is set-up, it will give you a link to open (in the form `http://localhost:8888...`). Copy that link and paste it on your browser and you'll enter the jupyter notebook environment, and you're ready to go.
