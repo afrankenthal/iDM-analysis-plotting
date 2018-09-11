@@ -10,7 +10,7 @@ To set this up:
 1) SSH tunnel. SSH to LPC machines and add port tunneling:
 
     ```shell
-    ssh -L 8888:localhost:8888 user@cmslpc-sl6.fnal.gov
+    $ ssh -L 8888:localhost:8888 user@cmslpc-sl6.fnal.gov
     ```
 
    8888 is the default port for jupyter notebooks.
