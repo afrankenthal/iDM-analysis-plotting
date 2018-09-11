@@ -10,10 +10,10 @@ To set this up:
 1) SSH tunnel. SSH to LPC machines and add port tunneling:
 
     ~~~~
-    ssh -L 8888:localhost:8888 user@cmslpc-sl6.fnal.gov`
+    ssh -L 8888:localhost:8888 user@cmslpc-sl6.fnal.gov
     ~~~~
 
-     8888 is the default port for jupyter notebooks.
+    8888 is the default port for jupyter notebooks.
 
 2) Jupyter notebook server. Once inside an LPC machine, there are two options for enabling jupyter notebooks:
 
