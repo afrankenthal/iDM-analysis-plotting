@@ -1,5 +1,5 @@
-# FirefighterAnalysis
-Fork from GitLab of SIDM/iDM trigger/reco efficiency plotting code
+# iDM-analysis-plotting
+iDM analysis code (plotting and cutflows)
 
 ### Run jupyter on the LPC
 
