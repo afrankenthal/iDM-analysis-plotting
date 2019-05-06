@@ -17,13 +17,14 @@ class HistogramContainer:
     iterating over many files).
     """
 
-    def __init__(self, bins=None, numCuts=np.arange(0,6)):
+    def __init__(self, bins=None, numCuts=np.arange(0,6), weight=1):
         """Parameters:
 
             bins (int): number of bins for this histogram
             If bins not given, default is 60 and set
             init to false (i.e. object not initialized yet)
             numCuts (numpy array): array with index of cuts
+            weight: takes into account xsec, lumi, and relative gen. weight
         """
 
         self.numCuts = numCuts
@@ -39,6 +40,7 @@ class HistogramContainer:
         for cut in self.numCuts:
             self.counts[cut] = np.zeros(self.bins)
             self.wgt_sqrd[cut] = pd.Series([])
+        self.weight = weight
     
     def __add__(self, new_hists):
         # Can only add 2 HistogramContainer objects together,
@@ -62,6 +64,12 @@ class HistogramContainer:
                     new_obj.edges = edges
         new_obj.calc_max_min()
         return new_obj
+
+    def set_weight(self, weight):
+        self.weight = weight
+        for cut in self.numCuts:
+            self.counts[cut] *= self.weight
+            self.wgt_sqrd[cut] *= self.weight**2
     
     def calc_max_min(self):
         self.max = {cut:max(self.counts[cut]) for cut in self.numCuts}
