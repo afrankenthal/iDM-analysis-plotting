@@ -81,10 +81,6 @@ class PlotMaker:
         return skh_plt.hist(x, ax=axis, bins=bin_edges, weights=weights, errorbars=errors, stacked=True, *args, **kwargs)
 
     def make_group_stacked_plot(self, axis, plot_var, cut, *args, **kwargs):
-        if 'log' in kwargs and kwargs['log'] == True:
-            kwargs.pop('log')
-            axis.set_yscale('log', nonposy='clip')
-
         grp_histos = {}
         for bkg, properties in self.bkgs.items():
             grp = properties['group']
@@ -98,15 +94,34 @@ class PlotMaker:
 
         labels = []
         sorted_grp_histos = OrderedDict()
-        sorted_keys = sorted(grp_histos, key=lambda obj: max(grp_histos[obj].counts[0]))
+        sorted_keys = sorted(grp_histos, key=lambda obj: max(grp_histos[obj].counts[cut]))
         for key in sorted_keys:
             sorted_grp_histos[key] = grp_histos[key]
             labels.append(key)
 
+        # Log doesn't seem to work with stacked option in scikit-hep
+        # so we set it ourselves, nbd
+        if 'log' in kwargs and kwargs['log'] == True:
+            kwargs.pop('log')
+            axis.set_yscale('log', nonposy='clip')
+
+        if 'density' in kwargs and kwargs['density'] == True:
+            binwidth = next(iter(sorted_grp_histos.values())).edges[1] - next(iter(sorted_grp_histos.values())).edges[0]
+            max_vals = np.array([histo.get_max()[cut]/np.sum(histo.counts[cut])/binwidth for histo in sorted_grp_histos.values()])
+            min_vals = np.array([histo.get_min()[cut]/np.sum(histo.counts[cut])/binwidth for histo in sorted_grp_histos.values()])
+            max_val = 10*max(max_vals[~np.isnan(max_vals)])
+            min_val = 0.1*min(min_vals[~np.isnan(min_vals)])
+        else:
+            max_val = 10*max([histo.get_max()[cut] for histo in sorted_grp_histos.values()])
+            min_val = min([histo.get_min()[cut] for histo in sorted_grp_histos.values()])
+            min_val = max(min(0.1*min_val, 1.0), 0.1)
+
+        axis.set_ylim([min_val, max_val])
+
         self.plot_stacked_binned_data_error(
                 axis, next(iter(self.histos[plot_var].values())).edges,
-                np.array([sorted_grp_histos[grp].counts[0] for grp in sorted_grp_histos]),
-                [sorted_grp_histos[grp].wgt_sqrd[0] for grp in sorted_grp_histos], label=labels, *args, **kwargs
+                np.array([sorted_grp_histos[grp].counts[cut] for grp in sorted_grp_histos]),
+                [sorted_grp_histos[grp].wgt_sqrd[cut] for grp in sorted_grp_histos], label=labels, *args, **kwargs
                 )
         
     def make_group_plot(self, axis, plot_var, cut, *args, **kwargs):
