@@ -6,6 +6,7 @@ Implements class PlotMaker to make plots from HistogramContainers.
 
 import numpy as np
 from skhep.visual import MplPlotter as skh_plt
+from collections import OrderedDict
 
 import utils.HistogramContainer as HC
 
@@ -64,6 +65,49 @@ class PlotMaker:
         #The weights are the y-values of the input binned data
         weights = data
         return skh_plt.hist(x, ax=axis, bins=bin_edges, weights=weights, errorbars=errors, *args, **kwargs)
+
+    def plot_stacked_binned_data_error(self, axis, bin_edges, data, wgt_sqrd, *args, **kwargs):
+        errors = wgt_sqrd[0]
+        for i in np.arange(1, len(wgt_sqrd)):
+            errors = errors.add(wgt_sqrd[i], fill_value=0)
+        errors = np.sqrt(errors)
+        errors = np.array(errors.reindex(np.arange(1, len(bin_edges)), fill_value=0))
+        #The dataset values are the bin centres
+        x = (bin_edges[1:] + bin_edges[:-1]) / 2.0
+        x = np.array([x]).repeat(len(data), axis=0)
+        x = np.transpose(x)
+        #The weights are the y-values of the input binned data
+        weights = np.transpose(data)
+        return skh_plt.hist(x, ax=axis, bins=bin_edges, weights=weights, errorbars=errors, stacked=True, *args, **kwargs)
+
+    def make_group_stacked_plot(self, axis, plot_var, cut, *args, **kwargs):
+        if 'log' in kwargs and kwargs['log'] == True:
+            kwargs.pop('log')
+            axis.set_yscale('log', nonposy='clip')
+
+        grp_histos = {}
+        for bkg, properties in self.bkgs.items():
+            grp = properties['group']
+            if grp not in grp_histos:
+                grp_histos[grp] = HC.HistogramContainer()
+            # self.histos[plot_var][bkg].set_weight(properties['weight'])
+            # FIXME placeholder while H.C. doesn't have set_weight
+            grp_histos[grp].counts[cut] += self.histos[plot_var][bkg].counts[cut] * properties['weight']
+            grp_histos[grp].edges = self.histos[plot_var][bkg].edges
+            grp_histos[grp].wgt_sqrd[cut] = grp_histos[grp].wgt_sqrd[cut].add(self.histos[plot_var][bkg].wgt_sqrd[cut] * properties['weight']**2, fill_value=0)
+
+        labels = []
+        sorted_grp_histos = OrderedDict()
+        sorted_keys = sorted(grp_histos, key=lambda obj: max(grp_histos[obj].counts[0]))
+        for key in sorted_keys:
+            sorted_grp_histos[key] = grp_histos[key]
+            labels.append(key)
+
+        self.plot_stacked_binned_data_error(
+                axis, next(iter(self.histos[plot_var].values())).edges,
+                np.array([sorted_grp_histos[grp].counts[0] for grp in sorted_grp_histos]),
+                [sorted_grp_histos[grp].wgt_sqrd[0] for grp in sorted_grp_histos], label=labels, *args, **kwargs
+                )
         
     def make_group_plot(self, axis, plot_var, cut, *args, **kwargs):
         """Plots groups of backgrounds together
