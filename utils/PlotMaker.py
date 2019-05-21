@@ -114,7 +114,7 @@ class PlotMaker:
         else:
             max_val = 10*max([histo.get_max()[cut] for histo in sorted_grp_histos.values()])
             min_val = min([histo.get_min()[cut] for histo in sorted_grp_histos.values()])
-            min_val = max(min(0.1*min_val, 1.0), 0.1)
+            min_val = max(min_val, 1.0) #max(min(min_val, 1.0), 0.1)
 
         axis.set_ylim([min_val, max_val])
 

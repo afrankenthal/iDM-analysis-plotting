@@ -129,19 +129,19 @@ class HistogramCalculator:
         return self.compute_hist(reduced_angle, range=(-math.pi, math.pi))
     
     def metpt(self):
-        return self.compute_hist(self.MET['recoPFMetPt'], range=(0,600))
+        return self.compute_hist(self.MET['recoPFMetPt'], range=(0,2500))
     
     def jetpt(self):
-        return self.compute_hist(self.jet['recoPFJetPt'], range=(0,600))
+        return self.compute_hist(self.jet['recoPFJetPt'], range=(0,2500))
     
     def leadingmupt(self):
-        return self.compute_hist(self.muons['recoPt'].groupby('entry').nth(0), range=(0,60))
+        return self.compute_hist(self.muons['recoPt'].groupby('entry').nth(0), range=(0,700))
 
     def subleadingmupt(self):
-        return self.compute_hist(self.muons['recoPt'].groupby('entry').nth(1), range=(0,60))
+        return self.compute_hist(self.muons['recoPt'].groupby('entry').nth(1), range=(0,700))
 
     def recodr(self):
-        return self.compute_hist(self.vertex['recoDr'], range=(0,6))
+        return self.compute_hist(self.vertex['recoDr'], range=(0,2*math.pi))
 
     def recovertex(self):
         vertex = np.sqrt(self.vertex['recoVxy']**2 + self.vertex['recoVz']**2)
