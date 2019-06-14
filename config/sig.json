@@ -1,0 +1,22 @@
+{
+    "Mchi-52p5_dMchi-5p0_ctau-1": {
+        "dir": "Mchi-52p5_dMchi-5p0_ctau-1/step2/190528_183912/0000",
+        "xsec": 5340,
+        "group": "sig"
+    },
+    "Mchi-52p5_dMchi-5p0_ctau-10": {
+        "dir": "Mchi-52p5_dMchi-5p0_ctau-10/step2/190527_005554/0000",
+        "xsec": 5340,
+        "group": "sig"
+    },
+    "Mchi-52p5_dMchi-5p0_ctau-100": {
+        "dir": "Mchi-52p5_dMchi-5p0_ctau-100/step2/190528_184013/0000",
+        "xsec": 5340,
+        "group": "sig"
+    },
+    "Mchi-52p5_dMchi-5p0_ctau-1000": {
+        "dir": "Mchi-52p5_dMchi-5p0_ctau-1000/step2/190528_191325/0000",
+        "xsec": 5340,
+        "group": "sig"
+    }
+}
