@@ -1,32 +1,30 @@
 #!/bin/env python3
-
-import os
 import sys
+from pathlib import Path
 
 if __name__ == '__main__':
-    plot_dir = sys.argv[1]
-    html_dir = f'/publicweb/a/as2872/iDMPlots/{plot_dir}'
-    if os.path.isdir(html_dir) == False:
-        os.mkdir(html_dir)
+    plot_dir = Path(sys.argv[1])
+    html_dir = Path(f'/publicweb/a/as2872/iDMPlots/{plot_dir}')
+    if (not html_dir.exists()):
+        html_dir.mkdir()
 
-    html = open(os.path.join(html_dir, 'index.html'), 'wt')
-    html.write('<html><head></head><body><pre>')
-    file_list = os.listdir(html_dir)
-    truncated_file_list = [os.path.splitext(os.path.basename(f))[0] for f in file_list]
-    html.write('<a href="..">.. (parent directory)</a><br>')
-    for i, f in enumerate(file_list):
-        print(i, f)
-        if f != 'index.html':
-            html.write(f'<a href="#{truncated_file_list[i]}">{i}</a>')
-            html.write(f'   ')
-            html.write(f'<a href="{f}">{f}</a><br>')
+    html_file = Path(html_dir/'index.html')
+    with html_file.open('wt') as index:
+        index.write('<html><head></head><body><pre>')
+        index.write('<a href="..">.. (parent directory)</a><br>')
+        for i, f in enumerate(sorted(html_dir.glob('*'))):
+            if f.name != 'index.html':
+                print(i, f.name)
+                index.write(f'<a href="#{f.name}">{i}</a>')
+                index.write(f'   ')
+                index.write(f'<a href="{f.name}">{f.name}</a><br>')
 
-    for i, f in enumerate(file_list):
-        if f != 'index.html':
-            html.write(f'<h4 id="{truncated_file_list[i]}"><a href="#{truncated_file_list[i]}">{truncated_file_list[i]}</a></h4><br>')
-            html.write(f'<img src="{f}" style="max-width: 600px"><br><br>\n')
-    html.write('</pre></body></html>\n')
-
-
-
+        for i, f in enumerate(sorted(html_dir.glob('*'))):
+            if f.name != 'index.html':
+                index.write(f'<h4 id="{f.name}"><a href="#{f.name}">{f.name}</a></h4><br>')
+                if f.suffix == '.png':
+                    index.write(f'<a href="{f.name}"><img src="{f.name}" style="max-width: 600px"></a><br><br>\n')
+                else:
+                    index.write(f'<a href="{f.name}">{f.name}</a><br><br>\n')
+        index.write('</pre></body></html>\n')
 
