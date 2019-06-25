@@ -10,7 +10,7 @@
         "group": "sig"
     }, 
     "Mchi-6p0_dMchi-2p0_ctau-100": {
-        "dir": "iDMAnalysis/Mchi-6p0_dMchi-2p0_ctau-1000",
+        "dir": "iDMAnalysis/Mchi-6p0_dMchi-2p0_ctau-100",
         "xsec": 5340,
         "group": "sig"
     }, 
@@ -30,7 +30,7 @@
         "group": "sig"
     }, 
     "Mchi-60p0_dMchi-20p0_ctau-100": {
-        "dir": "iDMAnalysis/Mchi-60p0_dMchi-20p0_ctau-1000",
+        "dir": "iDMAnalysis/Mchi-60p0_dMchi-20p0_ctau-100",
         "xsec": 5340,
         "group": "sig"
     }, 
@@ -50,7 +50,7 @@
         "group": "sig"
     }, 
     "Mchi-52p5_dMchi-5p0_ctau-100": {
-        "dir": "iDMAnalysis/Mchi-52p5_dMchi-5p0_ctau-1000",
+        "dir": "iDMAnalysis/Mchi-52p5_dMchi-5p0_ctau-100",
         "xsec": 5340,
         "group": "sig"
     }, 
