@@ -32,3 +32,11 @@ To set this up:
   
   
 3) Access the notebook server on your browser. After the notebook server is set-up, it will give you a link to open (in the form `http://localhost:8888...`). Copy that link and paste it on your browser and you'll enter the jupyter notebook environment, and you're ready to go.
+
+
+### Scripts
+BeamHalo: plots of track quality information and table of beam halo summary
+GenKinematicsNew: Studies of the Gen information. 
+PlotSignalBkgs: Plots the cutflow for the signal and background from data files containing the summary from SROptimizationAnalysisFull
+QCDCorrelationStudies:
+SROptimizationAnalysisFull: Loads all the backgrounds scripts and dumps the information into data files to be read by PlotSignalBkgs

@@ -30,8 +30,8 @@ def parallelize(data, func):
 
 def calcAvgAngle(group):
     # FIXME need to ensure at least 2 muons (otherwise index -1 == 0)
-    x = np.cos(group['recoPhi'].iloc[0]) + np.cos(group['recoPhi'].iloc[-1])
-    y = np.sin(group['recoPhi'].iloc[0]) + np.sin(group['recoPhi'].iloc[-1])
+    x = np.cos(group['reco_mu_phi'].iloc[0]) + np.cos(group['reco_mu_phi'].iloc[-1])
+    y = np.sin(group['reco_mu_phi'].iloc[0]) + np.sin(group['reco_mu_phi'].iloc[-1])
     return math.atan2(y/2, x/2)
 
 def func_group_apply(df):
@@ -53,7 +53,7 @@ class HistogramCalculator:
     the class HistogramCalculator is called to compute the histograms.
     """
 
-    def __init__(self, objects, sample_name, sample_type='', numCuts=np.arange(0,6)):
+    def __init__(self, objects, sample_name, sample_type='', numCuts=np.arange(0,16)):
         """Parameters:
             objects (dict): dict of pandas dataframes
             sample_name (str): which bkg or signal sample
@@ -70,12 +70,12 @@ class HistogramCalculator:
         self.MET = objects['MET']
         self.muons = objects['muons']
         self.jet = objects['leadingJet']
-        self.vertex = objects['vertex']
+        self.vertex = objects['vertex'].reset_index()
         try:
-            self.genwgt = objects['genwgt']
+            self.genwgt = objects['gen_wgt']
         except KeyError:
             self.genwgt = pd.Series(np.ones(len(self.cuts)))
-            self.genwgt = self.genwgt.rename('genwgt')
+            self.genwgt = self.genwgt.rename('gen_wgt')
             self.genwgt.index.name = 'entry'
             
     def cutflows(self):
@@ -95,12 +95,13 @@ class HistogramCalculator:
         # gen weight and computes the histogram for it
         if 'bins' not in kwargs:
             kwargs['bins'] = 60
-        temp_df = pd.concat([variable_df, self.genwgt], axis=1).dropna()
-        temp_df['genwgt_sqrd'] = temp_df['genwgt']**2
+        temp_df = pd.concat([variable_df, self.genwgt],axis=1).dropna() 
+        #temp_df = pd.concat([variable_df, self.genwgt], axis=1).dropna()
+        temp_df['genwgt_sqrd'] = temp_df['gen_wgt']**2
         counts = {}; edges = {}; wgt_sqrd = {}
         for cut in self.numCuts:
             cuts_to_apply = slice(None) if self.cuts_crit is None else reduce(operator.and_, self.cuts_crit[0:cut+1])
-            kwargs['weights'] = temp_df[cuts_to_apply]['genwgt']
+            kwargs['weights'] = temp_df[cuts_to_apply]['gen_wgt']
             counts[cut], edges[cut] = np.histogram(temp_df[cuts_to_apply][variable_df.name], **kwargs)
             # Digitizes data to find out which bin of histogram each row falls in
             bin_idxs = np.digitize(temp_df[cuts_to_apply][variable_df.name], edges[cut])
@@ -117,33 +118,33 @@ class HistogramCalculator:
         # Here, group by data_chunk instead of entry, inside func_group_apply 
         # we also have a groupby('entry')
         avg_muon_angle = parallelize(muons.groupby('data_chunk'), func_group_apply)
-        angle_diff = (self.MET['recoPFMetPhi'].dropna() - avg_muon_angle).dropna()
+        angle_diff = (self.MET['reco_PF_MET_phi'].dropna() - avg_muon_angle).dropna()
         reduced_angle_diff = angle_diff.apply(reducephi).dropna()
         reduced_angle_diff.name = 'reducedAngleDiff'
         return self.compute_hist(reduced_angle_diff, range=(-math.pi, math.pi))
     
     def metjetphi(self):
-        angle = (self.MET['recoPFMetPhi'] - self.jet['recoPFJetPhi']).dropna()
+        angle = (self.MET['reco_PF_MET_phi'] - self.jet['reco_PF_jet_phi']).dropna()
         reduced_angle = angle.apply(reducephi)
         reduced_angle.name = 'reducedAngle'
         return self.compute_hist(reduced_angle, range=(-math.pi, math.pi))
     
     def metpt(self):
-        return self.compute_hist(self.MET['recoPFMetPt'], range=(0,2500))
+        return self.compute_hist(self.MET['reco_PF_MET_pt'], range=(0,2500))
     
     def jetpt(self):
-        return self.compute_hist(self.jet['recoPFJetPt'], range=(0,2500))
+        return self.compute_hist(self.jet['reco_PF_jet_pt'], range=(0,2500))
     
     def leadingmupt(self):
-        return self.compute_hist(self.muons['recoPt'].groupby('entry').nth(0), range=(0,700))
+        return self.compute_hist(self.muons['reco_mu_pt'].groupby('entry').nth(0), range=(0,700))
 
     def subleadingmupt(self):
-        return self.compute_hist(self.muons['recoPt'].groupby('entry').nth(1), range=(0,700))
+        return self.compute_hist(self.muons['reco_mu_pt'].groupby('entry').nth(1), range=(0,700))
 
     def recodr(self):
-        return self.compute_hist(self.vertex['recoDr'], range=(0,2*math.pi))
+        return self.compute_hist(self.vertex['reco_vertex_dR'], range=(0,2*math.pi))
 
     def recovertex(self):
-        vertex = np.sqrt(self.vertex['recoVxy']**2 + self.vertex['recoVz']**2)
+        vertex = np.sqrt(self.vertex['reco_vertex_vxy']**2 + self.vertex['reco_vertex_vz']**2)
         vertex.name = 'vertex'
         return self.compute_hist(vertex, range=(0,300))
