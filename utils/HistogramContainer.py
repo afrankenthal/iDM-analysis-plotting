@@ -17,7 +17,7 @@ class HistogramContainer:
     iterating over many files).
     """
 
-    def __init__(self, bins=None, numCuts=np.arange(0,6), weight=1):
+    def __init__(self, bins=None, numCuts=np.arange(0,16), weight=1):
         """Parameters:
 
             bins (int): number of bins for this histogram

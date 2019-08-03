@@ -1,0 +1,12 @@
+{
+    "Mchi-60p0_dMchi-20p0_ctau-1": {
+        "dir": "Mchi-60p0_dMchi-20p0_ctau-1_TrackQuality/190606_180531/0000",
+        "xsec": 5340,
+        "group": "sig"
+    },
+    "Mchi-5p25_dMchi-0p5_ctau-1000": {
+        "dir": "Mchi-5p25_dMchi-0p5_ctau-1000_TrackQuality/190606_180833/0000",
+        "xsec": 5340,
+        "group": "sig"
+    }
+}

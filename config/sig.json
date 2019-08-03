@@ -1,0 +1,82 @@
+{
+    "Mchi-6p0_dMchi-2p0_ctau-1": {
+        "dir": "iDMAnalysis/Mchi-6p0_dMchi-2p0_ctau-1",
+        "xsec": 5340,
+        "group": "sig"
+    }, 
+    "Mchi-6p0_dMchi-2p0_ctau-10": {
+        "dir": "iDMAnalysis/Mchi-6p0_dMchi-2p0_ctau-10",
+        "xsec": 5340,
+        "group": "sig"
+    }, 
+    "Mchi-6p0_dMchi-2p0_ctau-100": {
+        "dir": "iDMAnalysis/Mchi-6p0_dMchi-2p0_ctau-100",
+        "xsec": 5340,
+        "group": "sig"
+    }, 
+    "Mchi-6p0_dMchi-2p0_ctau-1000": {
+        "dir": "iDMAnalysis/Mchi-6p0_dMchi-2p0_ctau-1000",
+        "xsec": 5340,
+        "group": "sig"
+    }, 
+    "Mchi-60p0_dMchi-20p0_ctau-1": {
+        "dir": "iDMAnalysis/Mchi-60p0_dMchi-20p0_ctau-1",
+        "xsec": 5340,
+        "group": "sig"
+    }, 
+    "Mchi-60p0_dMchi-20p0_ctau-10": {
+        "dir": "iDMAnalysis/Mchi-60p0_dMchi-20p0_ctau-10",
+        "xsec": 5340,
+        "group": "sig"
+    }, 
+    "Mchi-60p0_dMchi-20p0_ctau-100": {
+        "dir": "iDMAnalysis/Mchi-60p0_dMchi-20p0_ctau-100",
+        "xsec": 5340,
+        "group": "sig"
+    }, 
+    "Mchi-60p0_dMchi-20p0_ctau-1000": {
+        "dir": "iDMAnalysis/Mchi-60p0_dMchi-20p0_ctau-1000",
+        "xsec": 5340,
+        "group": "sig"
+    }, 
+    "Mchi-52p5_dMchi-5p0_ctau-1": {
+        "dir": "iDMAnalysis/Mchi-52p5_dMchi-5p0_ctau-1",
+        "xsec": 5340,
+        "group": "sig"
+    }, 
+    "Mchi-52p5_dMchi-5p0_ctau-10": {
+        "dir": "iDMAnalysis/Mchi-52p5_dMchi-5p0_ctau-10",
+        "xsec": 5340,
+        "group": "sig"
+    }, 
+    "Mchi-52p5_dMchi-5p0_ctau-100": {
+        "dir": "iDMAnalysis/Mchi-52p5_dMchi-5p0_ctau-100",
+        "xsec": 5340,
+        "group": "sig"
+    }, 
+    "Mchi-52p5_dMchi-5p0_ctau-1000": {
+        "dir": "iDMAnalysis/Mchi-52p5_dMchi-5p0_ctau-1000",
+        "xsec": 5340,
+        "group": "sig"
+    }, 
+    "Mchi-5p25_dMchi-0p5_ctau-1": {
+        "dir": "iDMAnalysis/Mchi-5p25_dMchi-0p5_ctau-1",
+        "xsec": 5340,
+        "group": "sig"
+    }, 
+    "Mchi-5p25_dMchi-0p5_ctau-10": { 
+        "dir": "iDMAnalysis/Mchi-5p25_dMchi-0p5_ctau-10",
+        "xsec": 5340,
+        "group": "sig"
+    }, 
+    "Mchi-5p25_dMchi-0p5_ctau-100": {
+        "dir": "iDMAnalysis/Mchi-5p25_dMchi-0p5_ctau-100",
+        "xsec": 5340,
+        "group": "sig"
+    }, 
+    "Mchi-5p25_dMchi-0p5_ctau-1000": {
+        "dir": "iDMAnalysis/Mchi-5p25_dMchi-0p5_ctau-1000",
+        "xsec": 5340,
+        "group": "sig"
+    }
+}

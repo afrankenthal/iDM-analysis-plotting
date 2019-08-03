@@ -21,10 +21,10 @@ if __name__ == '__main__':
 
         for i, f in enumerate(sorted(html_dir.glob('*'))):
             if f.name != 'index.html':
-                index.write(f'<h4 id="{f.name}"><a href="#{f.name}">{f.name}</a></h4><br>')
                 if f.suffix == '.png':
+                    index.write(f'<h4 id="{f.name}"><a href="#{f.name}">{f.name}</a></h4><br>')
                     index.write(f'<a href="{f.name}"><img src="{f.name}" style="max-width: 600px"></a><br><br>\n')
-                else:
-                    index.write(f'<a href="{f.name}">{f.name}</a><br><br>\n')
+                #else:
+                #    index.write(f'<a href="{f.name}">{f.name}</a><br><br>\n')
         index.write('</pre></body></html>\n')
 

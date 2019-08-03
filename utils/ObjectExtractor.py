@@ -18,11 +18,16 @@ class ObjectExtractor:
     def configure_dfs(self):
         ### Objects with same dimension in dataframe are imported together
         ### I.e. MET, cuts only have 1 entry, muons can have up to 2, jets more
-        self.dim1entries_bkg = ['recoPFMetPt', 'recoPFMetPhi', 'cutsVec*', 'genwgt']
-        self.dim1entries_sig = ['recoPFMetPt', 'recoPFMetPhi', 'cutsVec*']
-        self.dimVertex =  ['recoDr', 'recoVxy', 'recoVz']
-        self.dimMu = ['recoPt', 'recoEta', 'recoPhi']
-        self.dimJet = ['recoPFJetPt', 'recoPFJetEta', 'recoPFJetPhi']
+        #self.dim1entries_bkg = ['recoPFMetPt', 'recoPFMetPhi', 'cutsVec*', 'genwgt']
+        #self.dim1entries_sig = ['recoPFMetPt', 'recoPFMetPhi', 'cutsVec*']
+        #self.dimVertex =  ['recoDr', 'recoVxy', 'recoVz']
+        #self.dimMu = ['recoPt', 'recoEta', 'recoPhi']
+        #self.dimJet = ['recoPFJetPt', 'recoPFJetEta', 'recoPFJetPhi']
+        self.dim1entries_bkg = ['reco_PF_MET_pt', 'reco_PF_MET_phi', 'cutsVec*', 'gen_wgt']
+        self.dim1entries_sig = ['reco_PF_MET_pt', 'reco_PF_MET_phi', 'cutsVec*']
+        self.dimVertex =  ['reco_vertex_dR', 'reco_vertex_vxy', 'reco_vertex_vz']
+        self.dimMu = ['reco_mu_pt', 'reco_mu_eta', 'reco_mu_phi']
+        self.dimJet = ['reco_PF_jet_pt', 'reco_PF_jet_eta', 'reco_PF_jet_phi']
     
     def __init__(self, uproot_tree, sample_name='', executor=None):
         """Parameters:
@@ -47,7 +52,7 @@ class ObjectExtractor:
         return self.muons_df.reset_index(level=1)
     
     def get_MET(self):
-        return self.one_dim_entries_df[['recoPFMetPt', 'recoPFMetPhi']]
+        return self.one_dim_entries_df[['reco_PF_MET_pt', 'reco_PF_MET_phi']]
     
     def get_leading_jet(self):
         return self.jets_df.loc[(slice(None),0),slice(None)].reset_index(level=1)
@@ -64,12 +69,12 @@ class ObjectExtractor:
     
     def get_weights(self):
         try:
-            pileup_df = self.one_dim_entries_df[['genwgt']] # will also include pileup when available
-            genwgt_df = pileup_df['genwgt']
+            pileup_df = self.one_dim_entries_df[['gen_wgt']] # will also include pileup when available
+            genwgt_df = pileup_df['gen_wgt']
         except KeyError:
             print(f'Sample "{self.sample_name}" does not have either pileup or weight information')
             genwgt_df = pd.Series(np.ones((len(self.one_dim_entries_df))))
-            genwgt_df = genwgt_df.rename('genwgt')
+            genwgt_df = genwgt_df.rename('gen_wgt')
             genwgt_df.index.name = 'entry'
         return genwgt_df
     
@@ -81,5 +86,5 @@ class ObjectExtractor:
         objects['vertex'] = self.get_vertex()
         objects['muons'] = self.get_muons()
         objects['leadingJet'] = self.get_leading_jet()
-        objects['genwgt'] = self.get_weights()
+        objects['gen_wgt'] = self.get_weights()
         return objects
